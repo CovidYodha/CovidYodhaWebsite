@@ -1,98 +1,98 @@
 /*--------------------------------------------------------------
   # hero1 Section
   --------------------------------------------------------------*/
-  .hero1 {
-    width: 100%;
-    height: 100vh;
-    background: url(../img/india.png) top center no-repeat;
-    background-size: cover;
-  }
-  
-  .hero1 h1 {
-    margin: 0;
-    font-size: 37px;
-    font-weight: 700;
-    margin-left: -8%;
-    color: #3C3A64;
-  }
-  
-  .hero1 h2 {
-    color: #707070;
-    margin: 15px 0 0 0;
-    font-size: 20px;
-    margin-left: -8% !important;
-    margin-right: 5%;
-  }
-  
-  .hero1 .btn-get-started {
-    margin-top: 30px;
-    line-height: 0;
-    padding: 15px 40px;
-    margin-left: -8%;
-    border-radius: 4px;
-    transition: 0.5s;
-    color: #fff;
-    background: #3F6D9F;
-    box-shadow: 0px 5px 30px rgba(65, 84, 241, 0.4);
-  }
-  
-  .hero1 .btn-get-started span {
-    font-family: "Nunito", sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    letter-spacing: 1px;
-  }
-  
-  .hero1 .btn-get-started i {
-    margin-left: 5px;
-    font-size: 18px;
-    transition: 0.3s;
-  }
-  
-  .hero1 .btn-get-started:hover i {
-    transform: translateX(5px);
-  }
-  
-  .hero1 .hero1-img {
-    text-align: right;
-  }
+.hero1 {
+  width: 100%;
+  height: 800px;
+  background: url(../img/india.png) center no-repeat;
+  background-size: 600px 600px;
+}
 
-  .hero1-img > img {
-      margin-right: 20%;
-      margin-left: -5%;
+.hero1 h1 {
+  margin: 0;
+  font-size: 37px;
+  font-weight: 700;
+  margin-left: -8%;
+  color: #3c3a64;
+}
+
+.hero1 h2 {
+  color: #707070;
+  margin: 15px 0 0 0;
+  font-size: 20px;
+  margin-left: -8% !important;
+  margin-right: 5%;
+}
+
+.hero1 .btn-get-started {
+  margin-top: 30px;
+  line-height: 0;
+  padding: 15px 40px;
+  margin-left: -8%;
+  border-radius: 4px;
+  transition: 0.5s;
+  color: #fff;
+  background: #3f6d9f;
+  box-shadow: 0px 5px 30px rgba(65, 84, 241, 0.4);
+}
+
+.hero1 .btn-get-started span {
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.hero1 .btn-get-started i {
+  margin-left: 5px;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.hero1 .btn-get-started:hover i {
+  transform: translateX(5px);
+}
+
+.hero1 .hero1-img {
+  text-align: right;
+}
+
+.hero1-img > img {
+  margin-right: 20%;
+  margin-left: -5%;
+}
+
+@media (min-width: 1024px) {
+  .hero1 {
+    background-attachment: fixed;
   }
-  
-  @media (min-width: 1024px) {
-    .hero1 {
-      background-attachment: fixed;
-    }
+}
+
+@media (max-width: 991px) {
+  .hero1 {
+    height: auto;
+    padding: 120px 0 60px 0;
   }
-  
-  @media (max-width: 991px) {
-    .hero1 {
-      height: auto;
-      padding: 120px 0 60px 0;
-    }
-    .hero1 .hero1-img {
-      text-align: center;
-      margin-top: 80px;
-    }
-    .hero1 .hero1-img img {
-      width: 80%;
-    }
+  .hero1 .hero1-img {
+    text-align: center;
+    margin-top: 80px;
   }
-  
-  @media (max-width: 768px) {
-    .hero1 {
-      text-align: center;
-    }
-    .hero1 h1 {
-      font-size: 32px;
-    }
-    .hero1 h2 {
-      font-size: 24px;
-    }
-    .hero1 .hero1-img img {
-      width: 100%;
-    }
+  .hero1 .hero1-img img {
+    width: 80%;
   }
+}
+
+@media (max-width: 768px) {
+  .hero1 {
+    text-align: center;
+  }
+  .hero1 h1 {
+    font-size: 32px;
+  }
+  .hero1 h2 {
+    font-size: 24px;
+  }
+  .hero1 .hero1-img img {
+    width: 100%;
+  }
+}
