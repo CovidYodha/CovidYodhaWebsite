@@ -96,8 +96,11 @@
   color:#fff;
   font-size: 25px;
   text-align: center;
-  top: 50px;
-  left:40px;
+  align-items: center; 
+  font-family: "Roboto", sans-serif;
+  vertical-align: middle;
+  top: 55px;
+  left:45px;
   width: 102px;
   height: 81px;
 }
