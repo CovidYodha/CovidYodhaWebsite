@@ -136,3 +136,50 @@ def fetch_raw_data():
     raw = pd.concat([raw,rec],sort=True)
     
     return raw
+  
+  
+  
+  def merge_alldata(current_ver):
+    '''
+    Merge it all together
+    '''
+    col_list = ['Entry_ID', 'State Patient Number', 'Date Announced', 'Age Bracket',
+       'Gender', 'Detected City', 'Detected District', 'Detected State',
+       'State code', 'Num Cases', 'Current Status',
+       'Contracted from which Patient (Suspected)', 'Notes', 'Source_1',
+       'Source_2', 'Source_3', 'Nationality', 'Type of transmission',
+       'Status Change Date', 'Patient Number']
+    
+    allraw = fix_rawdata1and2(raw_d[0],death_rec[0],col_list,sheet_version=1)
+    tmp = fix_rawdata1and2(raw_d[1],death_rec[1],col_list,sheet_version=2)
+    allraw = pd.concat([allraw,tmp],sort=True)
+
+    for i in range(2,current_ver):
+        print(f"V{i+1} Shape \t: {tmp.shape}")
+        
+        tmp = raw_d[i]
+        tmp = tmp.fillna('')
+        
+        # Remove rows that doesn't have
+        # any State mentioned.
+        # This handles the situation at
+        # the tail of most recent sheet
+        tmp = tmp[tmp['Detected State'] != ''].copy()
+        
+        # Select only necessary columns
+        tmp = tmp[col_list]
+        # Convert date string to datetime
+        tmp['Date Announced'] = pd.to_datetime(tmp['Date Announced'],format='%d/%m/%Y')
+        # Add sheet version
+        tmp['Sheet_Version'] = i+1
+        
+        allraw = pd.concat([allraw,tmp],sort=True)
+    
+    # Try to fix age to float
+    allraw['Age Bracket'] = allraw['Age Bracket'].map(lambda x : fix_age(x))
+    # Try to fix gender column
+    allraw['Gender'] = allraw['Gender'].map(lambda x : fix_gender(x))
+    
+    print(f"Raw Data Shape \t: {allraw.shape}")
+    return allraw
+
