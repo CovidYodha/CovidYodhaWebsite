@@ -65,19 +65,23 @@
   margin-left: -5%;
 }
 .pointer {
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 10px;
   border-style: solid;
   border-color: #3f6d9f;
   width: 200px;
   height: 200px;
 }
-.pointer:hover {
+.pointer img {
+  margin-top: -11px;
+  margin-left: -11px;
+}
+/* .pointer:hover {
   background-color: #3f6d9f;
   transition: 10s;
-}
+} */
 .pointer:hover {
-  background: linear-gradient(125deg, #3f6d9f, #47b754);
+  background-color: #3f6d9f;
   transform: translatez(20px);
 }
 .row {
