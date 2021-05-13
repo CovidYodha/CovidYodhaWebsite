@@ -67,14 +67,39 @@
 .pointer {
   border-radius: 20px;
   padding: 10px;
-  /* border-style: solid;
-  border-color: #3f6d9f; */
+
   width: 200px;
   height: 200px;
 }
 .pointer img {
   margin-top: -11px;
   margin-left: -11px;
+}
+
+.visible,.visible3{
+  display:none;
+}
+.pointer:hover .visible{
+  display:table-cell;
+  position:relative;
+  color:#fff;
+  font-size: 25px;
+  text-align: center;
+  align-items: center; 
+  vertical-align: middle;
+  width: 102px;
+  height: 81px;
+}
+.pointer:hover .visible3{
+  display:flex;
+  position: absolute;
+  color:#fff;
+  font-size: 25px;
+  text-align: center;
+  top: 50px;
+  left:40px;
+  width: 102px;
+  height: 81px;
 }
 /* .pointer:hover {
   background-color: #3f6d9f;
