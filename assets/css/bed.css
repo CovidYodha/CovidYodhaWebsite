@@ -71,19 +71,14 @@
   border-color: #3f6d9f;
   width: 200px;
   height: 200px;
-<<<<<<< HEAD
 }
 .pointer:hover {
   background-color: #3f6d9f;
-=======
-  transition:10s;
-  
+  transition: 10s;
 }
-.pointer:hover{
-  background:linear-gradient(125deg,#3f6d9f,#47b754);
+.pointer:hover {
+  background: linear-gradient(125deg, #3f6d9f, #47b754);
   transform: translatez(20px);
-  
->>>>>>> 18163400106d6ac3547f8137e14bbf2d0814651f
 }
 .row {
   margin: 10px;
@@ -122,7 +117,7 @@
     width: 100%;
   }
 }
-@keyframes slidein{
+@keyframes slidein {
   from {
     transform: translateY(-100%);
   }
