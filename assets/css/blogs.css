@@ -1,3 +1,125 @@
-.card{
-    margin: 10px;
+.blog {
+  position: relative;
+  width: 100%;
+  padding: 45px 0;
+}
+
+.blog .blog-carousel {
+  position: relative;
+  width: calc(100% + 30px);
+  left: -15px;
+  right: -15px;
+}
+
+.blog .blog-item {
+  position: relative;
+  margin: 0 15px;
+}
+
+.blog .blog-page .blog-item {
+  margin: 0 0 30px 0;
+}
+
+.blog .blog-img {
+  position: relative;
+  width: 100%;
+}
+
+.blog .blog-img img {
+  width: 100%;
+}
+
+.blog .blog-text {
+  position: relative;
+  padding: 25px 30px;
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  border-left: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.blog .blog-text h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.blog .blog-text p {
+  margin-bottom: 10px;
+}
+
+.blog .blog-item a.btn {
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #343148;
+  transition: 0.3s;
+}
+
+.blog .blog-item a.btn i {
+  margin-left: 5px;
+}
+
+.blog .blog-item a.btn:hover {
+  color: #3f6d9f;
+}
+
+.blog .blog-meta {
+  position: relative;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.blog .blog-meta p {
+  margin: 0 10px 0 0;
+  font-size: 13px;
+}
+
+.blog .blog-meta i {
+  margin-right: 5px;
+}
+
+.blog .blog-meta p:last-child {
+  margin: 0;
+}
+
+.blog .owl-nav {
+  width: 150px;
+  margin: 32px auto 0 auto;
+  display: flex;
+}
+
+.blog .owl-nav .owl-prev,
+.blog .owl-nav .owl-next {
+  margin-left: 15px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7cac9;
+  background: #343148;
+  font-size: 22px;
+  transition: 0.3s;
+}
+
+.blog .owl-nav .owl-prev:hover,
+.blog .owl-nav .owl-next:hover {
+  color: #343148;
+  background: #f7cac9;
+}
+
+.blog .pagination .page-link {
+  color: #343148;
+  border-radius: 0;
+  border-color: #343148;
+}
+
+.blog .pagination .page-link:hover,
+.blog .pagination .page-item.active .page-link {
+  color: #f7cac9;
+  background: #343148;
+}
+
+.blog .pagination .disabled .page-link {
+  color: #999999;
 }
