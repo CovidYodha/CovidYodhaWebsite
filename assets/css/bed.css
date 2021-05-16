@@ -76,31 +76,32 @@
   margin-left: -11px;
 }
 
-.visible,.visible3{
-  display:none;
+.visible,
+.visible3 {
+  display: none;
 }
-.pointer:hover .visible{
-  display:table-cell;
-  position:relative;
-  color:#fff;
+.pointer:hover .visible {
+  display: table-cell;
+  position: relative;
+  color: #fff;
   font-size: 25px;
   text-align: center;
-  align-items: center; 
+  align-items: center;
   vertical-align: middle;
   width: 102px;
   height: 81px;
 }
-.pointer:hover .visible3{
-  display:flex;
+.pointer:hover .visible3 {
+  display: flex;
   position: absolute;
-  color:#fff;
+  color: #fff;
   font-size: 25px;
   text-align: center;
-  align-items: center; 
+  align-items: center;
   font-family: "Roboto", sans-serif;
   vertical-align: middle;
   top: 55px;
-  left:45px;
+  left: 45px;
   width: 102px;
   height: 81px;
 }
@@ -115,16 +116,55 @@
 .row {
   margin: 10px;
 }
-@media (min-width: 1024px) {
+@media (max-width: 1024px), (min-height: 1366px) {
+  .header .logo {
+    margin-left: 3%;
+  }
+  .navbar {
+    margin-right: 10px;
+  }
   .hero1 {
     background-attachment: fixed;
+  }
+  .hero1 .row {
+    margin-left: -30px;
+  }
+  .hero1 h1 {
+    text-align: center;
+    margin-left: -120px;
+  }
+  .hero1 .row .col-md-2 {
+    margin: 40px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 70px;
+    margin-bottom: 10px;
+    margin-top: 50px;
+  }
+  .hero1 .row .col-md-2 .pointer {
+    width: 200px;
+    height: 200px;
+    border-radius: 10%;
+  }
+  .hero1 .row .col-md-2 .pointer img {
+    width: 200px;
+    height: 200px;
   }
 }
 
 @media (max-width: 991px) {
+  .header .logo {
+    margin-left: 3%;
+  }
   .hero1 {
     height: auto;
+    width: auto;
     padding: 120px 0 60px 0;
+  }
+  .hero1 h1 {
+    text-align: center;
+    margin-right: 125px;
+    margin-left: 135px;
   }
   .hero1 .hero1-img {
     text-align: center;
@@ -133,20 +173,31 @@
   .hero1 .hero1-img img {
     width: 80%;
   }
-}
+  .hero1 .row {
+    margin-left: -30px;
+  }
+  .hero1 .row .col-md-2 {
+    margin: 30px;
 
-@media (max-width: 768px) {
-  .hero1 {
-    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-left: 70px;
+    margin-bottom: 10px;
+    margin-top: 50px;
   }
-  .hero1 h1 {
-    font-size: 32px;
+  .hero1 .row .col-md-2 .pointer {
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
   }
-  .hero1 h2 {
-    font-size: 24px;
+  .hero1 .row .col-md-2 .pointer img {
+    width: 150px;
+    height: 150px;
   }
-  .hero1 .hero1-img img {
-    width: 100%;
+  .hero1 .row .col-md-2 .pointer:hover .visible3 {
+    width: 90px;
+    margin-left: -20px;
+    height: 61px;
   }
 }
 @keyframes slidein {
