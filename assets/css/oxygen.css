@@ -113,19 +113,19 @@
 .row {
   margin: 10px;
 }
-@media(max-width:1024px),(min-height:1366px) {
-  .header .logo{
+@media (min-width: 1024px) {
+  /*.header .logo{
     margin-left: 3%;
   }
   .navbar{
     margin-right: 10px;
-  }
+  }*/
   .hero1 {
     background-attachment: fixed;
   }
   .hero1 .row {
     margin-left: -30px;
-  }
+  }/*
   .hero1 h1{
     text-align: center;
     margin-left:-120px;
@@ -146,7 +146,7 @@
   .hero1 .row .col-md-2 .pointer img{
     width: 200px;
     height: 200px;
-  }
+  }*/
   
 }
 
