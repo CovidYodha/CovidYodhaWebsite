@@ -661,6 +661,8 @@ section {
 }
 
 .portfolio .portfolio-wrap img {
+  width: 440px;
+  height: 296px;
   transition: 1s;
 }
 
