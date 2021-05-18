@@ -183,3 +183,97 @@ def fetch_raw_data():
     print(f"Raw Data Shape \t: {allraw.shape}")
     return allraw
 
+def fix_age(age):
+    '''
+    Age entries are sometimes entered in months.
+    Change them to fraction
+    '''
+    rgx_month = re.compile(r"([0-9]*)( month?.)")
+    rgx_day = re.compile(r"([0-9]*)( day?.)")
+    res_month = rgx_month.search(str(age).lower())
+    res_day = rgx_day.search(str(age).lower())
+    if res_month:
+        age_corr = float(res_month.group(1))/12
+        return round(age_corr,2)
+    elif res_day:
+        age_corr = float(res_day.group(1))/365.25
+        return round(age_corr,2)
+        return float(age)
+
+def fix_gender(g):
+    '''
+    Fix any invalid entries in gender column
+    '''
+    rgx_F = re.compile(r"[w,W]|[f,F]emale")
+    rgx_M = re.compile(r"[m,M]ale")
+    g = str(g)
+    g = re.sub(rgx_F,"F",g)
+    g = re.sub(rgx_M,"M",g)
+
+    return g
+
+def compare_with_gospel():
+    '''
+    Till April 26th, the districtwise sheet was managed
+    separately. i.e, Raw Data till then do not truly represent 
+    the district values till then.
+    This function compares the entries in Raw Data with gospel
+    Note that this function ignores the blank districts.
+    '''
+    # Read merged data
+    df = pd.read_csv('./tmp/csv/latest/raw_data.csv',low_memory=False)
+    df.head()
+
+    df['Date Announced'] = pd.to_datetime(df['Date Announced'])
+    df = df[df['Date Announced'] <= '2020-04-26']
+    df['District_Key'] = df['State code'] + "_" + df['Detected District']
+    df['Num Cases'] = pd.to_numeric(df['Num Cases'], errors='coerce')
+
+    dis_counts = pd.pivot_table(df,values = 'Num Cases',
+                               index = 'District_Key',
+                               columns='Current Status',
+                               aggfunc = sum).reset_index()
+
+    dis_counts.rename(columns={'Hospitalized':'Confirmed'},inplace=True)
+
+    # Read gospel
+    url = "https://raw.githubusercontent.com/covid19india/api/gh-pages/csv/latest/districts_26apr_gospel.csv"
+    gospel = pd.read_csv(url)
+
+    compare = pd.merge(gospel,dis_counts,on='District_Key', suffixes=("_gospel","_v1v2"))
+
+    compare.fillna(0,inplace=True)
+
+    compare['Conf_Diff'] = compare['Confirmed_gospel'] - compare['Confirmed_v1v2']
+    compare['Reco_Diff'] = compare['Recovered_gospel'] - compare['Recovered_v1v2']
+    compare['Dece_Diff'] = compare['Deceased_gospel'] - compare['Deceased_v1v2']
+
+    compare.to_csv("./tmp/csv/compare_gospel_v1v2.csv",index=False)
+    logging.info('Comparison file saved as ./tmp/csv/compare_gospel_v1v2.csv')
+    
+    return compare
+
+if __name__ == "__main__":
+    logging.info('''----------------------------------------------------------------------''')
+    logging.info('''Build one true raw data''')
+    logging.info('''----------------------------------------------------------------------''')
+    
+    os.makedirs('./tmp/csv/latest/',exist_ok=True)
+    
+    try:
+        # raw_d,death_rec,current_ver = fetch_raw_data()
+        # If remote fetch is required
+        raw_d,death_rec,current_ver = fetch_raw_data_from_api()
+    except Exception as e:
+        logging.error(f"Error while reading the files")
+        raise
+    logging.info('''----------------------------------------------------------------------''')
+
+    allraw = merge_alldata(current_ver)
+    allraw.to_csv('./tmp/csv/latest/raw_data.csv',index=False)
+    logging.info('''----------------------------------------------------------------------''')
+    logging.info('''Raw Data saved''')
+    logging.info('''----------------------------------------------------------------------''')
+    logging.info('''Comparing with Gospel''')
+    _ = compare_with_gospel()
+    logging.info('''----------------------------------------------------------------------''')
