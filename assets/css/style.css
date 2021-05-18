@@ -30,7 +30,6 @@ h6 {
   font-family: "Roboto", sans-serif;
 }
 
-
 /*--------------------------------------------------------------
   # Sections
   --------------------------------------------------------------*/
@@ -453,7 +452,7 @@ section {
   color: #707070;
   margin: 15px 0 0 0;
   font-size: 20px;
-  margin-left: -8% !important;
+  margin-left: -8%;
   margin-right: 5%;
 }
 
@@ -516,6 +515,9 @@ section {
 }
 
 @media (max-width: 768px) {
+  .hero-img > img {
+    margin-left: 3%;
+  }
   .hero {
     text-align: center;
   }
@@ -524,6 +526,7 @@ section {
   }
   .hero h2 {
     font-size: 24px;
+    margin-left: 8%;
   }
   .hero .hero-img img {
     width: 100%;
@@ -1045,7 +1048,7 @@ section {
 }
 
 .testimonials .swiper-slide {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 @media (max-width: 1199px) {
@@ -1064,10 +1067,7 @@ section {
   }
 }
 
-
-
-
-  /*--------------------------------------------------------------
+/*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
 .footer {
