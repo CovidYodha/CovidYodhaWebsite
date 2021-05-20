@@ -343,4 +343,622 @@ def parse_state_test(raw_data):
       data[date][state]['total']['tested'] = count
       data[date][state]['meta']['tested']['source'] = entry['source1'].strip()
       data[date][state]['meta']['tested']['last_updated'] = date
+def column_str(n):
+  alpha = ''
+  while n > 0:
+    n, rem = divmod(n - 1, 26)
+    alpha = chr(65 + rem) + alpha
+  return alpha
 
+
+def parse_district_test(reader):
+  # Header row
+  header = next(reader)
+  # Store formatted dates
+  dates = ['' for _ in header]
+  # Columns >= 6 contain dates
+  for j in range(6, len(header), 5):
+    try:
+      fdate = datetime.strptime(header[j].strip(), '%d/%m/%Y')
+      date = datetime.strftime(fdate, '%Y-%m-%d')
+      if date <= INDIA_DATE:
+        # Only keep entries from present or past dates
+        dates[j] = date
+    except ValueError:
+      # Bad date
+      logging.warning('[{}] Bad date: {}'.format(column_str(j), header[j]))
+  # Skip second row
+  next(reader)
+  for i, row in enumerate(reader):
+    # Column 3 contains state name
+    state_name = row[3].strip().lower()
+    try:
+      state = STATE_CODES[state_name]
+    except KeyError:
+      # Entries having unrecognized state names are discarded
+      logging.warning('[L{}] Bad state: {}'.format(i + 3, row[3]))
+      continue
+
+    # Column 4 contains district name
+    district, expected = parse_district(row[4], state)
+    if not expected:
+      # Print unexpected district names
+      logging.warning('[L{}] Unexpected district: {} {}'.format(
+          i + 3, state, district))
+
+    # Testing data starts from column 6
+    for j in range(6, len(row), 5):
+      # Date header
+      date = dates[j]
+      if not date:
+        # Skip future date
+        continue
+      # | Tested | Positive | Negative | Source1 | Source2 |
+      try:
+        count = int(row[j].strip())
+      except ValueError:
+        if row[j]:
+          logging.warning('[L{} {}] [{}: {}] Bad Tested: {}'.format(
+              i + 3, column_str(j), state, district, row[j]))
+        continue
+      # Use Source1 key as source
+      source = row[j + 3].strip()
+      if count:
+        data[date][state]['districts'][district]['total']['tested'] = count
+        data[date][state]['districts'][district]['meta']['tested'][
+            'source'] = source
+        data[date][state]['districts'][district]['meta']['tested'][
+            'last_updated'] = date
+
+
+def fill_tested():
+  dates = sorted(data)
+  for i, date in enumerate(dates):
+    curr_data = data[date]
+
+    # Initialize today's delta with today's cumulative
+    for state, state_data in curr_data.items():
+      if 'total' in state_data and 'tested' in state_data['total']:
+        state_data['delta']['tested'] = state_data['total']['tested']
+
+      if 'districts' not in state_data:
+        continue
+
+      for district, district_data in state_data['districts'].items():
+        if 'total' in district_data and 'tested' in district_data['total']:
+          district_data['delta']['tested'] = district_data['total']['tested']
+
+    if i > 0:
+      prev_date = dates[i - 1]
+      prev_data = data[prev_date]
+      for state, state_data in prev_data.items():
+        if 'total' in state_data and 'tested' in state_data['total']:
+          if 'tested' in curr_data[state]['total']:
+            # Subtract previous cumulative to get delta
+            curr_data[state]['delta']['tested'] -= state_data['total'][
+                'tested']
+          else:
+            # Take today's cumulative to be same as yesterday's
+            # cumulative if today's cumulative is missing
+            curr_data[state]['total']['tested'] = state_data['total']['tested']
+            curr_data[state]['meta']['tested']['source'] = state_data['meta'][
+                'tested']['source']
+            curr_data[state]['meta']['tested']['last_updated'] = state_data[
+                'meta']['tested']['last_updated']
+
+        if 'districts' not in state_data:
+          continue
+
+        for district, district_data in state_data['districts'].items():
+          if 'total' in district_data and 'tested' in district_data['total']:
+            if 'tested' in curr_data[state]['districts'][district]['total']:
+              # Subtract previous cumulative to get delta
+              curr_data[state]['districts'][district]['delta'][
+                  'tested'] -= district_data['total']['tested']
+            else:
+              # Take today's cumulative to be same as yesterday's
+              # cumulative if today's cumulative is missing
+              curr_data[state]['districts'][district]['total'][
+                  'tested'] = district_data['total']['tested']
+              curr_data[state]['districts'][district]['meta']['tested'][
+                  'source'] = district_data['meta']['tested']['source']
+              curr_data[state]['districts'][district]['meta']['tested'][
+                  'last_updated'] = district_data['meta']['tested'][
+                      'last_updated']
+
+
+def accumulate(start_after_date='', end_date='3020-01-30'):
+  dates = sorted(data)
+  for i, date in enumerate(dates):
+    if date <= start_after_date:
+      continue
+    elif date > end_date:
+      break
+    curr_data = data[date]
+
+    if i > 0:
+      # Initialize today's cumulative with previous available
+      prev_date = dates[i - 1]
+      prev_data = data[prev_date]
+      for state, state_data in prev_data.items():
+        for statistic in RAW_DATA_MAP.values():
+          if statistic in state_data['total']:
+            inc(curr_data[state]['total'], statistic,
+                state_data['total'][statistic])
+
+        if 'districts' not in state_data or date <= GOSPEL_DATE:
+          # Old district data is already accumulated
+          continue
+
+        for district, district_data in state_data['districts'].items():
+          for statistic in RAW_DATA_MAP.values():
+            if statistic in district_data['total']:
+              inc(curr_data[state]['districts'][district]['total'], statistic,
+                  district_data['total'][statistic])
+
+    # Add today's dailys to today's cumulative
+    for state, state_data in curr_data.items():
+      if 'delta' in state_data:
+        for statistic in RAW_DATA_MAP.values():
+          if statistic in state_data['delta']:
+            inc(state_data['total'], statistic, state_data['delta'][statistic])
+
+        if 'districts' not in state_data or date <= GOSPEL_DATE:
+          # Old district data is already accumulated
+          continue
+
+        for district, district_data in state_data['districts'].items():
+          if 'delta' in district_data:
+            for statistic in RAW_DATA_MAP.values():
+              if statistic in district_data['delta']:
+                inc(district_data['total'], statistic,
+                    district_data['delta'][statistic])
+
+
+def fill_gospel_unknown():
+  # Gospel doesn't contain unknowns
+  # Fill them based on gospel date state counts
+  curr_data = data[GOSPEL_DATE]
+  for state, state_data in curr_data.items():
+    if 'districts' not in state_data or 'total' not in state_data:
+      # State had no cases yet
+      continue
+
+    sum_district_totals = defaultdict(lambda: 0)
+    for district, district_data in state_data['districts'].items():
+      if 'total' in district_data:
+        for statistic, count in district_data['total'].items():
+          sum_district_totals[statistic] += count
+
+    for statistic in PRIMARY_STATISTICS:
+      if statistic in state_data['total']:
+        count = state_data['total'][statistic]
+        if count != sum_district_totals[statistic]:
+          # Counts don't match
+          # We take Unknown district values = State - Sum(districts gospel)
+          state_data['districts'][UNKNOWN_DISTRICT_KEY]['total'][
+              statistic] = count - sum_district_totals[statistic]
+
+
+def stripper(raw_data, dtype=ddict):
+  # Remove empty entries
+  new_data = dtype()
+  for k, v in raw_data.items():
+    if isinstance(v, dict):
+      v = stripper(v, dtype)
+    if v:
+      new_data[k] = v
+  return new_data
+
+
+def add_populations():
+  # Add population data for states/districts
+  for curr_data in data.values():
+    for state, state_data in curr_data.items():
+      try:
+        state_pop = STATE_POPULATIONS[state]
+        state_data['meta']['population'] = state_pop
+      except KeyError:
+        pass
+
+      if 'districts' not in state_data:
+        continue
+
+      for district, district_data in state_data['districts'].items():
+        try:
+          district_pop = DISTRICT_POPULATIONS[state][district]
+          district_data['meta']['population'] = district_pop
+        except KeyError:
+          pass
+
+
+def generate_timeseries(districts=False):
+  for date in sorted(data):
+    curr_data = data[date]
+
+    for state, state_data in curr_data.items():
+      for stype in ['total', 'delta']:
+        if stype in state_data:
+          for statistic, value in state_data[stype].items():
+            timeseries[state][date][stype][statistic] = value
+
+      if not districts or 'districts' not in state_data or date <= GOSPEL_DATE:
+        # Total state has no district data
+        # District timeseries starts only from 26th April
+        continue
+
+      for district, district_data in state_data['districts'].items():
+        for stype in ['total', 'delta']:
+          if stype in district_data:
+            for statistic, value in district_data[stype].items():
+              timeseries[state]['districts'][district][date][stype][
+                  statistic] = value
+
+
+def add_state_meta(raw_data):
+  last_data = data[sorted(data)[-1]]
+  for j, entry in enumerate(raw_data['statewise']):
+    state = entry['statecode'].strip().upper()
+    if state not in STATE_CODES.values():
+      # Entries having unrecognized state codes are discarded
+      logging.warning('[L{}] [{}] Bad state: {}'.format(
+          j + 2, entry['lastupdatedtime'], entry['statecode']))
+      continue
+
+    try:
+      fdate = datetime.strptime(entry['lastupdatedtime'].strip(),
+                                '%d/%m/%Y %H:%M:%S')
+    except ValueError:
+      # Bad timestamp
+      logging.warning('[L{}] [Bad timestamp: {}] {}'.format(
+          j + 2, entry['lastupdatedtime'], state))
+      continue
+
+    last_data[state]['meta']['last_updated'] = fdate.isoformat() + '+05:30'
+    if entry['statenotes']:
+      last_data[state]['meta']['notes'] = entry['statenotes'].strip()
+
+
+def add_district_meta(raw_data):
+  last_data = data[sorted(data)[-1]]
+  for j, entry in enumerate(raw_data.values()):
+    state = entry['statecode'].strip().upper()
+    if state not in STATE_CODES.values():
+      # Entries having unrecognized state codes are discarded
+      logging.warning('[L{}] Bad state: {}'.format(j + 2, entry['statecode']))
+      continue
+
+    for district, district_data in entry['districtData'].items():
+      district, expected = parse_district(district, state)
+      if not expected:
+        logging.warning('[L{}] Unexpected district: {} {}'.format(
+            j + 2, state, district))
+
+      if district_data['notes']:
+        last_data[state]['districts'][district]['meta'][
+            'notes'] = district_data['notes'].strip()
+
+
+def tally_statewise(raw_data):
+  last_data = data[sorted(data)[-1]]
+  # Check for extra entries
+  logging.info('Checking for extra entries...')
+  for state, state_data in last_data.items():
+    found = False
+    for entry in raw_data['statewise']:
+      if state == entry['statecode'].strip().upper():
+        found = True
+        break
+    if not found:
+      logging.warning(yaml.dump(stripper({state: state_data}, dtype=dict)))
+  logging.info('Done!')
+
+  # Tally counts of entries present in statewise
+  logging.info('Tallying final date counts...')
+  for j, entry in enumerate(raw_data['statewise']):
+    state = entry['statecode'].strip().upper()
+    if state not in STATE_CODES.values():
+      continue
+
+    try:
+      fdate = datetime.strptime(entry['lastupdatedtime'].strip(),
+                                '%d/%m/%Y %H:%M:%S')
+    except ValueError:
+      # Bad timestamp
+      logging.warning('[L{}] [Bad timestamp: {}] {}'.format(
+          j + 2, entry['lastupdatedtime'], state))
+      continue
+
+    for statistic in PRIMARY_STATISTICS:
+      try:
+        values = {
+            'total':
+            int(entry[statistic if statistic != 'deceased' else 'deaths'].
+                strip()),
+            'delta':
+            int(entry['delta' + (
+                statistic if statistic != 'deceased' else 'deaths').strip()])
+        }
+      except ValueError:
+        logging.warning('[L{}] [{}] [Bad value for {}] {}'.format(
+            j + 2, entry['lastupdatedtime'], statistic, state))
+        continue
+
+      for stype in ['total', 'delta']:
+        if values[stype]:
+          parsed_value = last_data[state][stype][statistic]
+          if not isinstance(parsed_value, int):
+            parsed_value = 0
+          if values[stype] != parsed_value:
+            # Print mismatch between statewise and parser
+            logging.warning('{} {} {}: (sheet: {}, parser: {})'.format(
+                state, statistic, stype, values[stype], parsed_value))
+
+
+def tally_districtwise(raw_data):
+  last_data = data[sorted(data)[-1]]
+  # Check for extra entries
+  logging.info('Checking for extra entries...')
+  for state, state_data in last_data.items():
+    if 'districts' not in state_data:
+      continue
+    state_name = STATE_NAMES[state]
+    if state_name in raw_data:
+      for district, district_data in state_data['districts'].items():
+        found = False
+        for entryDistrict in raw_data[state_name]['districtData'].keys():
+          entryDistrict, _ = parse_district(entryDistrict, state)
+          if district == entryDistrict:
+            found = True
+            break
+        if not found:
+          key = '{} ({})'.format(district, state)
+          logging.warning(yaml.dump(stripper({key: district_data},
+                                             dtype=dict)))
+    else:
+      logging.warning(yaml.dump(stripper({state: state_data}, dtype=dict)))
+  logging.info('Done!')
+
+  # Tally counts of entries present in districtwise
+  logging.info('Tallying final date counts...')
+  for j, entry in enumerate(raw_data.values()):
+    state = entry['statecode'].strip().upper()
+    if state not in STATE_CODES.values():
+      continue
+
+    for district, district_data in entry['districtData'].items():
+      district, _ = parse_district(district, state)
+      for statistic in PRIMARY_STATISTICS:
+        values = {
+            'total': district_data[statistic],
+            'delta': district_data['delta'][statistic]
+        }
+        for stype in ['total', 'delta']:
+          if values[stype]:
+            parsed_value = last_data[state]['districts'][district][stype][
+                statistic]
+            if not isinstance(parsed_value, int):
+              parsed_value = 0
+            if values[stype] != parsed_value:
+              # Print mismatch between districtwise and parser
+              logging.warning('{} {} {} {}: (sheet: {}, parser: {})'.format(
+                  state, district, statistic, stype, values[stype],
+                  parsed_value))
+
+
+if __name__ == '__main__':
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('{:{align}{width}}'.format('PARSER V3 START',
+                                          align='^',
+                                          width=PRINT_WIDTH))
+
+  # Get possible state codes, populations
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing state metadata...')
+  with open(META_DATA, 'r') as f:
+    logging.info('File: {}'.format(META_DATA.name))
+    raw_data = json.load(f)
+    parse_state_metadata(raw_data)
+  logging.info('Done!')
+
+  # Get all actual district names
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing districts list...')
+  with open(DISTRICT_LIST, 'r') as f:
+    logging.info('File: {}'.format(DISTRICT_LIST.name))
+    raw_data = json.load(f)
+    parse_district_list(raw_data)
+  logging.info('Done!')
+
+  # Get district populations
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing district metadata...')
+  with open(META_DATA, 'r') as f:
+    logging.info('File: {}'.format(META_DATA.name))
+    raw_data = json.load(f)
+    parse_district_metadata(raw_data)
+  logging.info('Done!')
+
+  # Parse raw_data's
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing raw_data...')
+  i = 1
+  while True:
+    f = INPUT_DIR / RAW_DATA.format(n=i)
+    if not f.is_file():
+      break
+    with open(f, 'r') as f:
+      logging.info('File: {}'.format(RAW_DATA.format(n=i)))
+      raw_data = json.load(f)
+      parse(raw_data, i)
+    i += 1
+  logging.info('Done!')
+
+  # Parse additional deceased/recovered info not in raw_data 1 and 2
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing deaths_recoveries...')
+  for i in [1, 2]:
+    f = INPUT_DIR / OUTCOME_DATA.format(n=i)
+    with open(f, 'r') as f:
+      logging.info('File: {}'.format(OUTCOME_DATA.format(n=i)))
+      raw_data = json.load(f)
+      parse_outcome(raw_data, i)
+  logging.info('Done!')
+
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Adding district data for 26th April...')
+  # Parse gospel district data for 26th April
+  with open(DISTRICT_DATA_GOSPEL, 'r') as f:
+    logging.info('File: {}'.format(DISTRICT_DATA_GOSPEL.name))
+    reader = csv.DictReader(f)
+    parse_district_gospel(reader)
+  logging.info('Done!')
+
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing ICMR test data for India...')
+  f = ICMR_TEST_DATA
+  with open(f, 'r') as f:
+    logging.info('File: {}'.format(ICMR_TEST_DATA.name))
+    raw_data = json.load(f, object_pairs_hook=OrderedDict)
+    parse_icmr(raw_data)
+  logging.info('Done!')
+
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing test data for all states...')
+  f = STATE_TEST_DATA
+  with open(f, 'r') as f:
+    logging.info('File: {}'.format(STATE_TEST_DATA.name))
+    raw_data = json.load(f, object_pairs_hook=OrderedDict)
+    parse_state_test(raw_data)
+  logging.info('Done!')
+
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Parsing test data for districts...')
+  f = DISTRICT_TEST_DATA
+  with open(f, 'r') as f:
+    logging.info('File: {}'.format(DISTRICT_TEST_DATA.name))
+    reader = csv.reader(f)
+    parse_district_test(reader)
+  logging.info('Done!')
+
+  # Fill delta values for tested
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Generating daily tested values...')
+  fill_tested()
+  logging.info('Done!')
+
+  # Generate total (cumulative) data points till 26th April
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Generating cumulative CRD values till 26th April...')
+  accumulate(end_date=GOSPEL_DATE)
+  logging.info('Done!')
+
+  # Fill Unknown district counts for 26th April
+  logging.info('-' * PRINT_WIDTH)
+  logging.info(
+      'Filling {} data for 26th April...'.format(UNKNOWN_DISTRICT_KEY))
+  fill_gospel_unknown()
+  logging.info('Done!')
+
+  # Generate rest of total (cumulative) data points
+  logging.info('-' * PRINT_WIDTH)
+  logging.info(
+      'Generating cumulative CRD values from 26th April afterwards...')
+  accumulate(start_after_date=GOSPEL_DATE)
+  logging.info('Done!')
+
+  # Strip empty values ({}, 0, '', None)
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Stripping empty values...')
+  data = stripper(data)
+  logging.info('Done!')
+
+  # Add population figures
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Adding state/district populations...')
+  add_populations()
+  logging.info('Done!')
+
+  # Generate timeseries
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Generating timeseries...')
+  generate_timeseries(districts=False)
+  logging.info('Done!')
+
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Adding state and district metadata...')
+  f = STATE_WISE
+  with open(f, 'r') as f:
+    logging.info('File: {}'.format(STATE_WISE.name))
+    raw_data = json.load(f, object_pairs_hook=OrderedDict)
+    add_state_meta(raw_data)
+
+  f = DISTRICT_WISE
+  with open(f, 'r') as f:
+    logging.info('File: {}'.format(DISTRICT_WISE.name))
+    raw_data = json.load(f, object_pairs_hook=OrderedDict)
+    add_district_meta(raw_data)
+  logging.info('Done!')
+
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Dumping APIs...')
+  OUTPUT_MIN_DIR.mkdir(parents=True, exist_ok=True)
+
+  # Dump prettified full data json
+  fn = '{}-{}'.format(OUTPUT_DATA_PREFIX, 'all')
+  with open((OUTPUT_DIR / fn).with_suffix('.json'), 'w') as f:
+    json.dump(data, f, indent=2, sort_keys=True)
+  # Dump minified full data
+  with open((OUTPUT_MIN_DIR / fn).with_suffix('.min.json'), 'w') as f:
+    json.dump(data, f, separators=(',', ':'), sort_keys=True)
+
+  # Split data and dump separate json for each date
+  for i, date in enumerate(sorted(data)):
+    curr_data = data[date]
+    if i < len(data) - 1:
+      fn = '{}-{}'.format(OUTPUT_DATA_PREFIX, date)
+    else:
+      fn = OUTPUT_DATA_PREFIX
+
+    with open((OUTPUT_DIR / fn).with_suffix('.json'), 'w') as f:
+      json.dump(curr_data, f, indent=2, sort_keys=True)
+    # Minified
+    with open((OUTPUT_MIN_DIR / fn).with_suffix('.min.json'), 'w') as f:
+      json.dump(curr_data, f, separators=(',', ':'), sort_keys=True)
+
+  # Dump timeseries json
+  with open((OUTPUT_DIR / OUTPUT_TIMESERIES_FILENAME).with_suffix('.json'),
+            'w') as f:
+    json.dump(timeseries, f, indent=2, sort_keys=True)
+  with open(
+      (OUTPUT_MIN_DIR / OUTPUT_TIMESERIES_FILENAME).with_suffix('.min.json'),
+      'w') as f:
+    json.dump(timeseries, f, separators=(',', ':'), sort_keys=True)
+
+  logging.info('Done!')
+
+  # Tally final date counts with statewise API
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Comparing data with statewise sheet...')
+  f = STATE_WISE
+  with open(f, 'r') as f:
+    logging.info('File: {}'.format(STATE_WISE.name))
+    raw_data = json.load(f, object_pairs_hook=OrderedDict)
+    tally_statewise(raw_data)
+  logging.info('Done!')
+
+  # Tally final date counts with districtwise API
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('Comparing data with districtwise sheet...')
+  f = DISTRICT_WISE
+  with open(f, 'r') as f:
+    logging.info('File: {}'.format(DISTRICT_WISE.name))
+    raw_data = json.load(f, object_pairs_hook=OrderedDict)
+    tally_districtwise(raw_data)
+  logging.info('Done!')
+
+  logging.info('-' * PRINT_WIDTH)
+  logging.info('{:{align}{width}}'.format('PARSER V3 END',
+                                          align='^',
+                                          width=PRINT_WIDTH))
+  logging.info('-' * PRINT_WIDTH)
