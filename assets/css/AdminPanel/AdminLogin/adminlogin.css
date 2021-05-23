@@ -14,7 +14,7 @@
 
 .card{
     width: 350px;
-    height: 500px;
+    height: 350px;
     box-shadow: 0 0 40px 20px rgba(0,0,0,0.26);
 }
 
@@ -44,5 +44,56 @@
 }
 
 .input-box{
-    
+    width: 120%;
+    background: white;
+    border: 1px solid black;
+    margin: 10px 0;
+    margin-left: -10%;
+    height: 45px;
+    border-radius: 20px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    outline: none;
+    text-align: center;
+    color: black;
+}
+
+::placeholder{
+    color: #000;
+    font-size: 12px;
+}
+
+button {
+    width: 110%;
+    background: transparent;
+    border: 1px solid #fff;
+    margin: 35px 0 10px;
+    margin-left: -5%;
+    height: 42px;
+    font-size: 15px;
+    border-radius: 20px;
+    padding: 0 10px;
+    margin-top: 6%;
+    box-sizing: border-box;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.submit-btn{
+    position: relative;
+}
+
+.submit-btn::after {
+    content: '\27a4';
+    color: #333;
+    line-height: 32px;
+    font-size: 17px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    right: 3px;
+    top: 3px;
 }
