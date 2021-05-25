@@ -61,7 +61,7 @@ function signIn() {
 function signOut(){
     auth.signOut();
     alert("SignOut Successfully from System");
-    window.location.assign("../../AdminPanel/AdminLogin/adminlogin.html");
+    window.location.assign("../../index.html");
   };
 
   //active user to homepage
