@@ -106,9 +106,18 @@
     background-color: #3f6d9f;
     transition: 10s;
   } */
-.pointer:hover {
+.pointer:hover  {
   background-color: #3f6d9f;
   transform: translatez(20px);
+}
+.pointer:hover .visible3 a{
+  text-decoration: none;
+  color: #000;  
+} 
+.pointer:hover .visible3 a:hover{
+  text-decoration:underline;
+  color:#fff;
+  font-weight: 600;
 }
 .row {
   margin: 10px;
