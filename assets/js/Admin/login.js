@@ -13,25 +13,64 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 const auth = firebase.auth();
+console.log("huu");
+function email(){
+var cuser = auth.currentUser;
+console.log(cuser);
+if(cuser!=null){
+  console.log(cuser);
+  var u_email = cuser.email;
+  document.getElementById('uemail').innerHTML = u_email;
+}
+}
+ 
+  
+  // SignIN Function
 
-// SignIN Function
+
+
+  
 function signIn() {
-    var email = document.getElementById("email");
-    var password = document.getElementById("password");
-    const promise = auth.signInWithEmailAndPassword(email.value,password.value);
-    promise.catch(e=>alert(e.message));
+  console.log('hii');
+  var email = document.getElementById("email");
+  var password = document.getElementById("password");
+
+  firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        
+        console.log(user);       
+        
+        window.location.assign("../AdminDashboard/admindashboard.html");
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(email.value);
+        console.log(errorCode);
+        window.alert(errorMessage);
+        
+      })
+    // var email = document.getElementById("email");
+    // var password = document.getElementById("password");
+    // const promise = auth.signInWithEmailAndPassword(email.value,password.value);
+    // promise.catch(e=>alert(e.message));
 };
 
 function signOut(){
     auth.signOut();
     alert("SignOut Successfully from System");
+    window.location.assign("../../AdminPanel/AdminLogin/adminlogin.html");
   };
 
   //active user to homepage
   firebase.auth().onAuthStateChanged((user)=>{
     if(user){
       var email = user.email;
-      alert("Active user "+email);
+      document.getElementById('uemail').innerHTML=email;
+      
+      // alert("Active user "+email);
 
     }else{
       // alert("No Active user Found")

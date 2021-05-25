@@ -1,44 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+
     <title>Admin Pannel</title>
     <link href="../../assets/css/style.css" rel="styleshet" />
-    <link href="../../assets/css/AdminPanel/AdminLogin/adminlogin.css" rel="stylesheet" />
-</head>
-<body>
+    <link
+      href="../../assets/css/AdminPanel/AdminLogin/adminlogin.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container">
-        <div class="card">
-            <div class="inner-box">
-                <div class="card-front">
-                    <h2>LOGIN</h2>
-                    <form action="../AdminDashboard/admindashboard.html">
-                        <input type="email" class="input-box" placeholder="Your Email Id" required />
-                        <input type="password" class="input-box" placeholder="Your Password" required />
-                        <button type="submit" class="submit-btn">Login</button>
-                    </form>
-                </div>
-            </div>
+      <div class="card">
+        <div class="inner-box">
+          <div class="card-front">
+            <h2>LOGIN</h2>
+            <form>
+              <input
+                type="email"
+                id="email"
+                class="input-box"
+                placeholder="Your Email Id"
+                required
+              />
+              <input
+                type="password"
+                id="password"
+                class="input-box"
+                placeholder="Your Password"
+                required
+              />
+              <button type="button" class="submit-btn" onclick="signIn()">
+                Login
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="/__/firebase/8.6.1/firebase-app.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-      https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="/__/firebase/8.6.1/firebase-analytics.js"></script>
-
-    <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
-    
-    <!-- JS Files -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
     <script src="../../assets/js/Admin/login.js"></script>
     <!-- <script src="./assets/js/app.js"></script> -->
-</body>
+  </body>
 </html>

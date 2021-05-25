@@ -28,6 +28,11 @@
       href="../../assets/css/AdminPanel/AdminDashboard/admindashboard.css"
       rel="stylesheet"
     />
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
   </head>
 
   <body id="page-top">
@@ -107,12 +112,12 @@
             <span>Content Changing Area</span></a
           >
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="../ChangingArea/PlasmaDetails.html">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Plasma Content Add Data</span></a
           >
-        </li>
+        </li> -->
 
         <!-- Divider -->
         <hr class="sidebar-divider" />
@@ -162,7 +167,11 @@
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
-          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          <button
+            class="rounded-circle border-0"
+            onclick="signOut()"
+            id="sidebarToggle"
+          ></button>
         </div>
 
         <!-- Sidebar Message -->
@@ -447,6 +456,7 @@
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a
+                  onclick="signOut()"
                   class="nav-link dropdown-toggle"
                   href="#"
                   id="userDropdown"
@@ -455,7 +465,9 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                  <span
+                    id="uemail"
+                    class="mr-2 d-none d-lg-inline text-gray-600 small"
                     >Douglas McGee</span
                   >
                   <!-- <img
@@ -663,9 +675,18 @@
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-                    <div class="chart-area" style="border: none; height: 900px; outline: none;">
+                    <div
+                      class="chart-area"
+                      style="border: none; height: 900px; outline: none"
+                    >
                       <iframe
-                        style="height: 900px; width: 1130px;text-decoration: none; outline: none; align-items: center;"
+                        style="
+                          height: 900px;
+                          width: 1130px;
+                          text-decoration: none;
+                          outline: none;
+                          align-items: center;
+                        "
                         src="https://covid-19-tracker-85fa1.web.app/"
                       ></iframe>
                       <canvas id="myAreaChart"> </canvas>
@@ -926,7 +947,7 @@
         </div>
       </div>
     </div>
-
+    <script src="../../assets/js/Admin/login.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="../../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
