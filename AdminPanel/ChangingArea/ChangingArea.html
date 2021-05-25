@@ -30,13 +30,12 @@
     />
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
 
     <!-- Initialize Firebase -->
     <!-- <script src="/__/firebase/init.js"></script> -->
-    <script src="../../assets/js/Admin/login.js"></script>
   </head>
 
   <body id="page-top">
@@ -512,14 +511,14 @@
                         <div class="newsCollector">
                           <div class="newsDetails1">
                             <input
-                              type="text"
+                              type="imageholder"
                               class="input-box"
                               placeholder="Enter Image Url"
                               id="imageholder"
                               required
                             />
                             <input
-                              type="text"
+                              type="headingnews"
                               class="input-box"
                               placeholder="Enter Heading"
                               id="headingnews"
@@ -528,14 +527,14 @@
                           </div>
                           <div class="newsDetails2">
                             <input
-                              type="text"
+                              type="contentNews"
                               class="input-box"
                               placeholder="Enter Content"
                               id="contentNews"
                               required
                             />
                             <input
-                              type="text"
+                              type="descriptionNews"
                               class="input-box"
                               placeholder="Enter Site Link to Read the full news"
                               id="descriptionNews"
@@ -544,6 +543,7 @@
                           </div>
                         </div>
                         <button
+                          id="button"
                           type="button"
                           class="btn btn-success btn-form"
                           onclick="data()"
@@ -825,5 +825,6 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="../../assets/js/Admin/login.js"></script>
   </body>
 </html>
