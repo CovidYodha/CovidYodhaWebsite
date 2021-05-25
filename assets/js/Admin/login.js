@@ -299,13 +299,13 @@ console.log(imgnews);
 
 
 
-  
+    imageholder="";
+    headingnews="";
+    contentNews="";
+    descriptionNews="";
     
-  window.alert('Saved Successfully');
-    imageholder.value="";
-    headingnews.value="";
-    contentNews.value="";
-    descriptionNews.value="";
+  window.alert('Saved Successfully Please clear the fields on your own');
+    
   }
 
 
