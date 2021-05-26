@@ -53,10 +53,10 @@ function signIn() {
             window.alert(errorMessage);
 
         })
-        // var email = document.getElementById("email");
-        // var password = document.getElementById("password");
-        // const promise = auth.signInWithEmailAndPassword(email.value,password.value);
-        // promise.catch(e=>alert(e.message));
+    // var email = document.getElementById("email");
+    // var password = document.getElementById("password");
+    // const promise = auth.signInWithEmailAndPassword(email.value,password.value);
+    // promise.catch(e=>alert(e.message));
 };
 
 function signOut() {
@@ -98,172 +98,172 @@ let database = firebase.firestore();
 
 
 function data() {
-    let imageholder = document.getElementById('imageholder').value;
-    let headingnews = document.getElementById('headingnews').value;
-    let contentNews = document.getElementById('contentNews').value;
-    let descriptionNews = document.getElementById('descriptionNews').value;
+    const imageholder = document.getElementById('imageholder').value;
+    const headingnews = document.getElementById('headingnews').value;
+    const contentNews = document.getElementById('contentNews').value;
+    const descriptionNews = document.getElementById('descriptionNews').value;
 
 
 
     // for(i=53;i>48;i--){
 
     database.collection('news').doc('5').get().
-    then(function(doc) {
-        // console.log(doc.data().image)
-        // console.log(image.src);
+        then(function (doc) {
+            // console.log(doc.data().image)
+            // console.log(image.src);
 
-        var imgnews = doc.data().image;
-        var headnews = doc.data().heading;
-        var contentnews = doc.data().content;
-        var descriptionnews = doc.data().description;
-        // console.log(imgnews);
-
-
-
-
-    
-  
+            var imgnews = doc.data().image;
+            var headnews = doc.data().heading;
+            var contentnews = doc.data().content;
+            var descriptionnews = doc.data().description;
+            // console.log(imgnews);
 
 
 
-        firebase.firestore().collection('news').doc('6').update({
-            date: today,
-            image: imgnews,
-            heading: headnews,
-            content: contentnews,
-            description: descriptionnews
+
+
+
+
+
+
+            firebase.firestore().collection('news').doc('6').update({
+                date: today,
+                image: imgnews,
+                heading: headnews,
+                content: contentnews,
+                description: descriptionnews
+            })
+            console.log(imgnews);
         })
-        console.log(imgnews);
-    })
 
     database.collection('news').doc('4').get().
-    then(function(doc) {
-        // console.log(doc.data().image)
-        // console.log(image.src);
+        then(function (doc) {
+            // console.log(doc.data().image)
+            // console.log(image.src);
 
-        var imgnews = doc.data().image;
-        var headnews = doc.data().heading;
-        var contentnews = doc.data().content;
-        var descriptionnews = doc.data().description;
-        // console.log(imgnews);
-
-
+            var imgnews = doc.data().image;
+            var headnews = doc.data().heading;
+            var contentnews = doc.data().content;
+            var descriptionnews = doc.data().description;
+            // console.log(imgnews);
 
 
 
 
-        firebase.firestore().collection('news').doc('5').update({
-            date: today,
-            image: imgnews,
-            heading: headnews,
-            content: contentnews,
-            description: descriptionnews
+
+
+            firebase.firestore().collection('news').doc('5').update({
+                date: today,
+                image: imgnews,
+                heading: headnews,
+                content: contentnews,
+                description: descriptionnews
+            })
+            console.log(imgnews);
         })
-        console.log(imgnews);
-    })
     database.collection('news').doc('3').get().
-    then(function(doc) {
-        // console.log(doc.data().image)
-        // console.log(image.src);
+        then(function (doc) {
+            // console.log(doc.data().image)
+            // console.log(image.src);
 
-        var imgnews = doc.data().image;
-        var headnews = doc.data().heading;
-        var contentnews = doc.data().content;
-        var descriptionnews = doc.data().description;
-        // console.log(imgnews);
-
-
+            var imgnews = doc.data().image;
+            var headnews = doc.data().heading;
+            var contentnews = doc.data().content;
+            var descriptionnews = doc.data().description;
+            // console.log(imgnews);
 
 
 
 
-        firebase.firestore().collection('news').doc('4').update({
-            date: today,
-            image: imgnews,
-            heading: headnews,
-            content: contentnews,
-            description: descriptionnews
+
+
+            firebase.firestore().collection('news').doc('4').update({
+                date: today,
+                image: imgnews,
+                heading: headnews,
+                content: contentnews,
+                description: descriptionnews
+            })
+            console.log(imgnews);
         })
-        console.log(imgnews);
-    })
     database.collection('news').doc('2').get().
-    then(function(doc) {
-        // console.log(doc.data().image)
-        // console.log(image.src);
+        then(function (doc) {
+            // console.log(doc.data().image)
+            // console.log(image.src);
 
-        var imgnews = doc.data().image;
-        var headnews = doc.data().heading;
-        var contentnews = doc.data().content;
-        var descriptionnews = doc.data().description;
-        // console.log(imgnews);
-
-
+            var imgnews = doc.data().image;
+            var headnews = doc.data().heading;
+            var contentnews = doc.data().content;
+            var descriptionnews = doc.data().description;
+            // console.log(imgnews);
 
 
 
 
-        firebase.firestore().collection('news').doc('3').update({
-            date: today,
-            image: imgnews,
-            heading: headnews,
-            content: contentnews,
-            description: descriptionnews
+
+
+            firebase.firestore().collection('news').doc('3').update({
+                date: today,
+                image: imgnews,
+                heading: headnews,
+                content: contentnews,
+                description: descriptionnews
+            })
+            console.log(imgnews);
         })
-        console.log(imgnews);
-    })
 
     database.collection('news').doc('1').get().
-    then(function(doc) {
-        // console.log(doc.data().image)
-        // console.log(image.src);
+        then(function (doc) {
+            // console.log(doc.data().image)
+            // console.log(image.src);
 
-        var imgnews = doc.data().image;
-        var headnews = doc.data().heading;
-        var contentnews = doc.data().content;
-        var descriptionnews = doc.data().description;
-        // console.log(imgnews);
-
-
+            var imgnews = doc.data().image;
+            var headnews = doc.data().heading;
+            var contentnews = doc.data().content;
+            var descriptionnews = doc.data().description;
+            // console.log(imgnews);
 
 
 
 
-        firebase.firestore().collection('news').doc('2').update({
-            date: today,
-            image: imgnews,
-            heading: headnews,
-            content: contentnews,
-            description: descriptionnews
+
+
+            firebase.firestore().collection('news').doc('2').update({
+                date: today,
+                image: imgnews,
+                heading: headnews,
+                content: contentnews,
+                description: descriptionnews
+            })
+            console.log(imgnews);
         })
-        console.log(imgnews);
-    })
 
 
     database.collection('news').doc('0').get().
-    then(function(doc) {
-        // console.log(doc.data().image)
-        // console.log(image.src);
+        then(function (doc) {
+            // console.log(doc.data().image)
+            // console.log(image.src);
 
-        var imgnews = doc.data().image;
-        var headnews = doc.data().heading;
-        var contentnews = doc.data().content;
-        var descriptionnews = doc.data().description;
-        // console.log(imgnews);
-
-
+            var imgnews = doc.data().image;
+            var headnews = doc.data().heading;
+            var contentnews = doc.data().content;
+            var descriptionnews = doc.data().description;
+            // console.log(imgnews);
 
 
 
 
-        firebase.firestore().collection('news').doc('1').update({
-            date: today,
-            image: imgnews,
-            heading: headnews,
-            content: contentnews,
-            description: descriptionnews
+
+
+            firebase.firestore().collection('news').doc('1').update({
+                date: today,
+                image: imgnews,
+                heading: headnews,
+                content: contentnews,
+                description: descriptionnews
+            })
+            console.log(imgnews);
         })
-        console.log(imgnews);
-    })
 
 
 
@@ -287,11 +287,11 @@ function data() {
 
 
 
-
-
-
-
     window.alert('Saved Successfully');
+
+}
+
+function clea() {
     imageholder.value = "";
     headingnews.value = "";
     contentNews.value = "";
@@ -321,7 +321,7 @@ function getdata() {
 
 
         database.collection('news').doc(String.fromCharCode(i)).get()
-            .then(function(doc) {
+            .then(function (doc) {
                 // console.log(doc.data().image)
                 // console.log(image.src);
                 // console.log(doc.data().description)

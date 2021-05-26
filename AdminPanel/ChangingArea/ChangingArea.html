@@ -17,10 +17,7 @@
     <!-- Custom styles for this template-->
     <link href="../../assets/css/AdminPanel/ChangingArea/ChangingArea.css" rel="stylesheet" />
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
+    
 
     <!-- Initialize Firebase -->
     <!-- <script src="/__/firebase/init.js"></script> -->
@@ -455,7 +452,7 @@
                   <div class="card-body">
                     <div class="chart-area">
                       <!-- <canvas id="myAreaChart">Hello</canvas> -->
-                      <form>
+                      <form id="myform">
                         <div class="newsCollector">
                           <div class="newsDetails1">
                             <input
@@ -475,7 +472,7 @@
                           </div>
                           <div class="newsDetails2">
                             <input
-                              type="contentNews"
+                              type="text"
                               class="input-box"
                               placeholder="Enter Content"
                               id="contentNews"
@@ -490,14 +487,24 @@
                             />
                           </div>
                         </div>
-                        <button
+                        <div class="buttonflex">
+                        <button 
+                          
                           id="button"
                           type="button"
-                          class="btn btn-success btn-form"
+                          class="btn btn-success btn-form buttonsize"
                           onclick="data()"
                         >
                           Submit
                         </button>
+                        <button onclick="clea()" type="button"class="btn btn-success btn-form buttonsize" >
+                          clear
+                        </button>
+                        
+                        <button type="button"class="btn btn-success btn-form buttonsize" >
+                          <a href="../../News.html" target="_blank">check changes</a>
+                        </button>
+                      </div>
                       </form>
                     </div>
                   </div>
@@ -740,7 +747,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Bootstrap core JavaScript-->
     <script src="../../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -757,7 +764,11 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="../../assets/js/Admin/login.js"></script>
+    
 </body>
-
+<script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
+    <script src="../../assets/js/Admin/login.js"></script>
 </html>
