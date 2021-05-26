@@ -11279,4 +11279,11 @@
   body.sidebar-toggled footer.sticky-footer {
     width: 100%;
   }
+  .box{
+    width:308px;
+  }
   
+  #shift{
+    margin-left: 60px;
+    
+  }
