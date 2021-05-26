@@ -26,11 +26,11 @@ async function covid(country) {
     console.log(res)
     const data = await res.json();
 
-
+    
     if (res.status === 4 || res.status === 200) {
         date.textContent = new Date(data.Date).toDateString();
 
-
+        console.log(res);
         if (country === '' || country === 'World') {
             const { TotalConfirmed, TotalDeaths, TotalRecovered, NewConfirmed, NewDeaths, NewRecovered } = data.Global;
 
@@ -43,7 +43,7 @@ async function covid(country) {
             recovered.children[1].textContent = TotalRecovered;
             recovered.children[2].textContent = NewRecovered;
 
-
+            console.log(TotalConfirmed)
 
             drawChart(TotalConfirmed, TotalDeaths, TotalRecovered)
 
@@ -68,21 +68,21 @@ async function covid(country) {
 
                 recovered.children[1].textContent = item.TotalRecovered;
                 recovered.children[2].textContent = item.NewRecovered;
-                nameCountry.textContent = item.Country;
+                // nameCountry.textContent = item.Country;
                 console.log(item.TotalDeaths);
                 console.log(item.NewRecovered);
                 console.log(country);
+               
 
 
+                 google.charts.load('current', { 'packages': ['bar'] });
 
-                google.charts.load('current', { 'packages': ['bar'] });
-
-                var data = google.visualization.arrayToDataTable([
-                    ['Year', 'Conformed', 'deaths', 'Recovered'],
-                    ['2021', item.TotalConfirmed, item.TotalDeaths, item.TotalRecovered],
+                 var data = google.visualization.arrayToDataTable([
+                     ['Year', 'Conformed', 'deaths', 'Recovered'],
+                     ['2021', item.TotalConfirmed, item.TotalDeaths, item.TotalRecovered],
 
                 ]);
-
+                      console.log("jo")
                 var options = {
                     chart: {
                         title: 'Company Performance',
@@ -106,7 +106,7 @@ async function covid(country) {
 }
 covid();
 
-const btnSearch = document.querySelector('button');
+const btnSearch = document.getElementById('button');
 btnSearch.addEventListener('click', (e) => {
     e.preventDefault();
     covid(search.value);
@@ -114,34 +114,36 @@ btnSearch.addEventListener('click', (e) => {
     search.value = '';
 })
 
-google.charts.load('current', { 'packages': ['bar'] });
+google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart(TotalConfirmed, TotalDeaths, TotalRecovered) {
     var data = google.visualization.arrayToDataTable([
-        ['Year', '2021', { role: 'style' }],
-         ['Copper', 8.94, '#b87333'],            // RGB value
-         ['Silver', 10.49, 'silver'],            // English color name
-         ['Gold', 19.30, 'gold'],
-         ['Platinum', 21.45, 'color: #e5e4e2' ], // CSS-style declaration
-        ['', 'Conformed', 'deaths', 'Recovered'],
-        ['', TotalConfirmed, TotalDeaths, TotalRecovered],
+        ['Year', ''],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+          // CSS-style declaration
+       /* ['Year', 'Conformed', 'deaths', 'Recovered'],
+        ['2021', TotalConfirmed, TotalDeaths, TotalRecovered],*/
         
     ]);
    
 
     var options = {
         chart: {
-            title: 'Covid-details',
-            subtitle: 'Conformed  Deaths  Recovered',
-            colors: ['#e0440e', '#e6693e', '#ec8f6e']
+            // title: 'Covid-details',
+            // subtitle: 'Conformed  Deaths  Recovered',
+            
         }
         
     };
 
-    var chart = new google.charts.Bar(document.getElementById('bargraph'));
+    var chart = new google.charts.PieChart(document.getElementById('bargraph'));
 
-    chart.draw(data, google.charts.Bar.convertOptions(options));
+    chart.draw(data, options);
 }
 /*crimson confirmed
  death black recoverd green*/
