@@ -330,6 +330,14 @@ section {
     margin-right: 5px;
 }
 
+
+/* @media (min-width: 500px) {
+    .header .logo img {
+        margin-left: 2%;
+        max-height: 30px;
+    }
+} */
+
 .header .logo span {
     font-size: 30px;
     font-weight: 700;
@@ -717,6 +725,16 @@ section {
     height: 1080px;
     object-fit: cover;
     margin-bottom: -30%;
+}
+
+@media (max-width: 500px) {
+    .about-img-1>img {
+        width: 100%;
+        height: 580px;
+        object-fit: cover;
+        margin-left: 1%;
+        /* margin-bottom: -30%; */
+    }
 }
 
 .about p {
