@@ -506,7 +506,7 @@ section {
     right: 0;
     left: 0;
     bottom: 0;
-    background: rgba(1, 22, 61, 0.9);
+    background: rgba(0, 0, 0, 1);
     transition: 0.3s;
 }
 
@@ -517,12 +517,16 @@ section {
 }
 
 .navbar-mobile ul {
+    /* display: block;
+    position: absolute; */
     display: block;
-    position: absolute;
-    top: 55px;
-    right: 15px;
-    bottom: 15px;
-    left: 15px;
+    position: relative;
+    top: 2%;
+    right: 20%;
+    bottom: 15%;
+    left: 8%;
+    height: 85%;
+    width: 85%;
     padding: 10px 0;
     border-radius: 10px;
     background-color: #fff;
