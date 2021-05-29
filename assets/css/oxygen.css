@@ -120,11 +120,11 @@
 
 .pointer:hover .visible3 a {
     text-decoration: none;
-    color: #000;
+    color: #fff;
 }
 
 .pointer:hover .visible3 a:hover {
-    text-decoration: underline;
+    text-decoration:none;
     color: #fff;
     font-weight: 600;
 }

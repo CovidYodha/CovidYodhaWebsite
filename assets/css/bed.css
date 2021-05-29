@@ -1,6 +1,3 @@
-/*--------------------------------------------------------------
-  # hero1 Section
-  --------------------------------------------------------------*/
 .hero1 {
   width: 100%;
   height: 100%;
@@ -60,17 +57,18 @@
   text-align: right;
 }
 
-.hero1-img > img {
+.hero1-img>img {
   margin-right: 20%;
   margin-left: -5%;
 }
+
 .pointer {
   border-radius: 20px;
   padding: 10px;
-
   width: 200px;
   height: 200px;
 }
+
 .pointer img {
   margin-top: -11px;
   margin-left: -11px;
@@ -79,7 +77,9 @@
 .visible,
 .visible3 {
   display: none;
+  color: white;
 }
+
 .pointer:hover .visible {
   display: table-cell;
   position: relative;
@@ -91,6 +91,7 @@
   width: 102px;
   height: 81px;
 }
+
 .pointer:hover .visible3 {
   display: flex;
   position: absolute;
@@ -105,159 +106,174 @@
   width: 102px;
   height: 81px;
 }
+
+
 /* .pointer:hover {
   background-color: #3f6d9f;
   transition: 10s;
 } */
+
 .pointer:hover {
   background-color: #3f6d9f;
   transform: translatez(20px);
 }
+
+.pointer:hover .visible3 a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.pointer:hover .visible3 a:hover {
+  text-decoration:none;
+  color: #fff;
+  font-weight: 600;
+}
+
 .row {
   margin: 10px;
 }
-@media (max-width: 1024px), (min-height: 1366px) {
-  .header .logo {
-    margin-left: 3%;
-  }
-  .navbar {
-    margin-right: 10px;
-  }
+
+@media (min-width: 1024px) {
+  /*.header .logo{
+  margin-left: 3%;
+}
+.navbar{
+  margin-right: 10px;
+}*/
   .hero1 {
-    background-attachment: fixed;
+      background-attachment: fixed;
   }
   .hero1 .row {
-    margin-left: -30px;
+      margin-left: -30px;
   }
-  .hero1 h1 {
-    text-align: center;
-    margin-left: -120px;
-  }
-  .hero1 .row .col-md-2 {
-    margin: 40px;
-    align-items: center;
-    justify-content: center;
-    padding-left: 70px;
-    margin-bottom: 10px;
-    margin-top: 50px;
-  }
-  .hero1 .row .col-md-2 .pointer {
-    width: 200px;
-    height: 200px;
-    border-radius: 10%;
-  }
-  .hero1 .row .col-md-2 .pointer img {
-    width: 200px;
-    height: 200px;
-  }
+  /*
+.hero1 h1{
+  text-align: center;
+  margin-left:-120px;
 }
+.hero1 .row .col-md-2{
+  margin:40px;  
+  align-items: center;
+  justify-content: center;
+  padding-left: 70px;
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+.hero1 .row .col-md-2 .pointer{
+  width: 200px;
+  height: 200px;
+  border-radius: 10%;
+}
+.hero1 .row .col-md-2 .pointer img{
+  width: 200px;
+  height: 200px;
+}*/
+}
+
 @media (max-width: 991px) {
   .header .logo {
-    margin-left: 3%;
+      margin-left: 3%;
   }
   .hero1 {
-    height: auto;
-    width: auto;
-    padding: 120px 0 60px 0;
+      height: auto;
+      width: auto;
+      padding: 120px 0 60px 0;
   }
   .hero1 h1 {
-    text-align: center;
-    margin-right: 125px;
-    margin-left: 135px;
+      text-align: center;
+      margin-right: 125px;
+      margin-left: 135px;
   }
   .hero1 .hero1-img {
-    text-align: center;
-    margin-top: 80px;
+      text-align: center;
+      margin-top: 80px;
   }
   .hero1 .hero1-img img {
-    width: 80%;
+      width: 80%;
   }
   .hero1 .row {
-    margin-left: -30px;
+      margin-left: -30px;
   }
   .hero1 .row .col-md-2 {
-    margin: 30px;
-
-    align-items: center;
-    justify-content: center;
-    padding-left: 70px;
-    margin-bottom: 10px;
-    margin-top: 50px;
+      margin: 30px;
+      align-items: center;
+      justify-content: center;
+      padding-left: 70px;
+      margin-bottom: 10px;
+      margin-top: 50px;
   }
   .hero1 .row .col-md-2 .pointer {
-    width: 150px;
-    height: 150px;
-    border-radius: 10%;
+      width: 150px;
+      height: 150px;
+      border-radius: 10%;
   }
   .hero1 .row .col-md-2 .pointer img {
-    width: 150px;
-    height: 150px;
+      width: 150px;
+      height: 150px;
   }
   .hero1 .row .col-md-2 .pointer:hover .visible3 {
-    width: 90px;
-    margin-left: -20px;
-    height: 61px;
+      width: 90px;
+      margin-left: -20px;
+      height: 61px;
   }
 }
-@media (max-width:768px) {
+
+@media (max-width: 768px) {
   .header .logo {
-    margin-left: 3%;
+      margin-left: 3%;
   }
   .hero1 {
-    height: auto;
-    width: auto;
-    padding: 80px 0 60px 0;
+      height: auto;
+      width: auto;
+      padding: 80px 0 60px 0;
   }
   .hero1 h1 {
-    text-align: center;
-    margin-left: 20px;
-    margin-right: 0%;
-    padding: 0%;
-    font-size: 40px;
-    font-weight: 200;
+      text-align: center;
+      margin-left: 20px;
+      margin-right: 0%;
+      padding: 0%;
+      font-size: 40px;
+      font-weight: 200;
   }
   .hero1 .hero1-img {
-    text-align: center;
-    margin-top: 80px;
+      text-align: center;
+      margin-top: 80px;
   }
   .hero1 .hero1-img img {
-    width: 100%;
+      width: 100%;
   }
- .hero1 .row{
-   margin-left:-50px;
- }
+  .hero1 .row {
+      margin-left: -50px;
+  }
   .hero1 .row .col-md-2 {
-    margin: 30px;
-    align-items: center;
-    justify-content: center;
-    padding-left: 70px;
-    margin-bottom: 10px;
-    
+      margin: 30px;
+      align-items: center;
+      justify-content: center;
+      padding-left: 70px;
+      margin-bottom: 10px;
   }
   .hero1 .row .col-md-2 .pointer {
-    width: 200px;
-    height: 200px;
-    border-radius: 10%;
+      width: 200px;
+      height: 200px;
+      border-radius: 10%;
   }
   .hero1 .row .col-md-2 .pointer img {
-    width: 200px;
-    height: 200px;
+      width: 200px;
+      height: 200px;
   }
   .hero1 .row .col-md-2 .pointer:hover .visible3 {
-    top: 55px;
-  left: 45px;
-  width: 102px;
-  height: 81px;
+      top: 55px;
+      left: 45px;
+      width: 102px;
+      height: 81px;
   }
 }
- 
 
 @keyframes slidein {
   from {
-    transform: translateY(100%);
+      transform: translateY(100%);
   }
-
   to {
-    transform: translateY(0%);
+      transform: translateY(0%);
   }
 }
