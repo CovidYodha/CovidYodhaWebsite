@@ -650,6 +650,14 @@ section {
     margin-left: -5%;
 }
 
+@media (min-width: 500px) {
+    .hero-img>img {
+        margin-right: 20%;
+        margin-left: -5%;
+        /* height: 100px; */
+    }
+}
+
 @media (min-width: 1024px) {
     .hero {
         background-attachment: fixed;
