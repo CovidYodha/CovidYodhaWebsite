@@ -468,119 +468,101 @@
 
       <!-- ======= Contact Section ======= -->
       <section id="contact" class="contact">
+
         <div class="container" data-aos="fade-up">
+  
           <header class="section-header">
             <h2>Contact</h2>
             <p>Contact Us</p>
           </header>
-
+  
           <div class="row gy-4">
+  
             <div class="col-lg-6">
+  
               <div class="row gy-4">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <div class="info-box">
                     <a href="">
-                    <center><i class="bi bi-linkedin bx bxl-linkedin"></i>
-                    <h3>Linkedin</h3></center></a>
-                    <!-- <p>A108 Adam Street,<br />New York, NY 535022</p> -->
+                    <i class="bi bi-linkedin bx bxl-linkedin"></i>
+                    <h3>Linkedin</h3></a>
+                  </div>
+                </div> -->
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <center><a href="https://www.instagram.com/covidyodha_/?hl=en">
+                   <center><i class="bi bi-instagram bx bxl-instagram"></i></center>
+                   <h3>instagram</h3></a></center>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="info-box">
-                    <a href="https://www.instagram.com/covidyodha_/?hl=en">
-                   <center> <i class="bi bi-instagram bx bxl-instagram"></i>
-                   <h3>instagram</h3></center></a>
-                    <!-- <p>+1 5589 55488 55<br />+1 6678 254445 41</p>  -->
+                    <center><i class="bi bi-facebook"></i></center>
+                      <center><a href="bed.html">
+                        <h3>Facebook</h3></a></center>
+                      
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <center><a href="https://twitter.com/YodhaCovid?s=09">
+                    <center>><i class="bi bi-twitter"></i></center>
+                     <h3>Twitter</h3></a></center>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <center><a href="https://covidyodha.medium.com/"></center>
+                    <center><i class="fab fa-medium-m"></i>
+                     <h3>Medium</h3></a></center>
                   </div>
                 </div>
               </div>
+  
             </div>
-
+  
             <div class="col-lg-6">
-              <div class="row gy-4">
-                <div class="col-md-6">
-                  <div class="info-box">
-                    <center><i class="bi bi-facebook"></i>
-                    <a href="bed.html">
-                      <h3>Facebook</h3></center></a>
-                    <!-- <p>A108 Adam Street,<br />New York, NY 535022</p>  -->
+              
+              <form id="contact-form"  method="post" name="contact"  data-netlify="true" class="php-email-form" > 
+                <div class="row gy-4">
+  
+                  <div class="col-md-6">
+                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="required" data-error="name is required.">
                   </div>
-                </div>
-                <div class="col-md-6">
-                  
-                  <div class="info-box">
-                    <a href="https://twitter.com/YodhaCovid?s=09">
-                    <center><i class="bi bi-twitter"></i>
-                     <h3>Twitter</h3></center></a>
-                    <!-- <p>+1 5589 55488 55<br />+1 6678 254445 41</p>  -->
+  
+                  <div class="col-md-6 ">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="required" data-error="Valid email is required.">
                   </div>
+  
+                  <div class="col-md-12">
+                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="required" data-error="Subject is required.">
+                  </div>
+  
+                  <div class="col-md-12">
+                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required="required" data-error="Please,leave us a message."></textarea>
+                  </div>
+  
+                  <div class="col-md-12 text-center">
+                    <div class="loading">Loading</div>
+                    <div class="error-message"></div>
+                    <div class="sent-message">Your message has been sent. Thank you!</div>
+  
+                    <button type="submit" onclick="myFunc()" >Send Message</button>
+                  </div>
+  
                 </div>
-              </div>
+              </form>
+  
             </div>
-
-            <!-- <div class="row gy-4"> -->
-              <center>
-              <div class="col-md-6">
-                <div class="info-box">
-                  <center>
-                    <!-- <i class="fab fa-medium"></i> -->
-                    <a href="https://covidyodha.medium.com/">
-                    <i class="fab fa-medium-m"></i>
-                  
-                    <h3>Medium</h3></center></a>
-                  <!-- <p>A108 Adam Street,<br />New York, NY 535022</p>  -->
-                </div>
-              </center>
-              <!-- </div> -->
-
-            <!-- <div class="col-lg-6">
-              <div class="row gy-4">
-                <div class="col-md-6">
-                  <div class="info-box">
-                    <center>
-                      <i class="fab fa-medium"></i>
-                    <a href="bed.html">
-                      <h3>Facebook</h3></center></a>
-      
-                  </div>
-                </div>
-            </div> -->
-
-            <!-- <div class="col-lg-6">
-                <form method="post" class="php-email-form" action="contact.php"> 
-                  <div class="row gy-4">
-    
-                    <div class="col-md-6">
-                      <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                    </div>
-    
-                    <div class="col-md-6 ">
-                      <input type="email" class="form-control" name="email" placeholder="Your Email" required>
-                    </div>
-    
-                    <div class="col-md-12">
-                      <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                    </div>
-    
-                    <div class="col-md-12">
-                      <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                    </div>
-    
-                    <div class="col-md-12 text-center">
-                      <div class="loading">Loading</div>
-                      <div class="error-message"></div>
-                      <div class="sent-message">Your message has been sent. Thank you!</div>
-    
-                      <button type="submit">Send Message</button>
-                    </div>
-    
-                  </div>
-                </form>
-    
-              </div> -->
+  
           </div>
+  
         </div>
+  
       </section>
+
+      <!-- ======= Contact Section ======= -->
+
       <!-- End Contact Section -->
     </main>
 
