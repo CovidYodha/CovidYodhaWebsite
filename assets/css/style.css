@@ -726,7 +726,7 @@ section {
 
 .about-img-1>img {
     width: 100%;
-    height: 1080px;
+    height: 100%;
     object-fit: cover;
     margin-bottom: -30%;
 }
