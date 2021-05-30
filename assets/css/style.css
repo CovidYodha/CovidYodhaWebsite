@@ -647,19 +647,13 @@ section {
 
 .hero-img>img {
     margin-right: 20%;
-    /* margin-left: -5%; */
-}
-#image-fluide{
-    /* display: flex; */
-    margin-top: -60px;
-    width:500px;
-    height: 500px;
+    margin-left: -5%;
 }
 
 @media (min-width: 500px) {
     .hero-img>img {
         margin-right: 20%;
-        /* margin-left: -5%; */
+        margin-left: -5%;
         /* height: 100px; */
     }
 }
@@ -1429,11 +1423,4 @@ section {
     text-align: center;
     font-size: 13px;
     color: #3c3a64;
-}
-.img-fluid{
-    height:700px;
-    margin-top: 90px;
-    }
-.hero-img{
-    margin-right: -50px !important;
 }
