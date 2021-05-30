@@ -10,6 +10,7 @@ const chart = document.querySelector('.chart');
 let dataChart = [];
 
 const API_URL = "https://api.covid19api.com/summary";
+const latlon_api = 'https://www.trackcorona.live/api/countries'
 
 // var today = new Date();
 // var dd = String(today.getDate()).padStart(2, '0');
@@ -23,14 +24,19 @@ const API_URL = "https://api.covid19api.com/summary";
 
 async function covid(country) {
     const res = await fetch(API_URL);
-    console.log(res)
+    // console.log(res)
     const data = await res.json();
 
-    
+
+    const latlon = await fetch(latlon_api);
+    // console.log(latlon)
+    const latlondata = await latlon.json();
+    console.log(latlondata.data);
+
     if (res.status === 4 || res.status === 200) {
         date.textContent = new Date(data.Date).toDateString();
 
-        console.log(res);
+        // console.log(res);
         if (country === '' || country === 'World') {
             const { TotalConfirmed, TotalDeaths, TotalRecovered, NewConfirmed, NewDeaths, NewRecovered } = data.Global;
 
@@ -43,7 +49,7 @@ async function covid(country) {
             recovered.children[1].textContent = TotalRecovered;
             recovered.children[2].textContent = NewRecovered;
 
-            console.log(TotalConfirmed)
+            // console.log(TotalConfirmed)
 
             drawChart(TotalConfirmed, TotalDeaths, TotalRecovered)
 
@@ -58,7 +64,12 @@ async function covid(country) {
             option.textContent = item.Country;
             countries.appendChild(option);
 
-            if (country === item.Country) {
+
+            const { location, latitude, longitude } = latlondata.data
+            if (country === item.Country || country === location) {
+
+                console.log(location);
+                console.log(latitude);
 
                 confirmed.children[1].textContent = item.TotalConfirmed;
                 confirmed.children[2].textContent = item.NewConfirmed;
@@ -69,33 +80,42 @@ async function covid(country) {
                 recovered.children[1].textContent = item.TotalRecovered;
                 recovered.children[2].textContent = item.NewRecovered;
                 // nameCountry.textContent = item.Country;
-                console.log(item.TotalDeaths);
-                console.log(item.NewRecovered);
-                console.log(country);
-               
-
-
-                 google.charts.load('current', { 'packages': ['bar'] });
-
-                 var data = google.visualization.arrayToDataTable([
-                     ['Year', 'Conformed', 'deaths', 'Recovered'],
-                     ['2021', item.TotalConfirmed, item.TotalDeaths, item.TotalRecovered],
-
-                ]);
-                      console.log("jo")
-                var options = {
-                    chart: {
-                        title: 'Company Performance',
-                        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-                    }
-                };
-
-                var chart = new google.charts.Bar(document.getElementById('bargraph'));
-
-                chart.draw(data, google.charts.Bar.convertOptions(options));
+                // console.log(item.TotalDeaths);
+                // console.log(item.NewRecovered);
+                // console.log(country);
 
 
 
+                var ctx = document.getElementById("myPieChart");
+                var myPieChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["Conformed", "Deaths", "Recovered"],
+                        datasets: [{
+                            data: [item.TotalConfirmed, item.TotalDeaths, item.TotalRecovered],
+                            backgroundColor: ['crimson', 'black', '#1CC88A'],
+                            hoverBackgroundColor: ['#9a0e2a', 'black', '#0b573c'],
+                            hoverBorderColor: "rgba(234, 236, 244, 1)",
+                        }],
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            caretPadding: 10,
+                        },
+                        legend: {
+                            display: false
+                        },
+                        cutoutPercentage: 80,
+                    },
+                });
 
             }
         })
@@ -114,36 +134,93 @@ btnSearch.addEventListener('click', (e) => {
     search.value = '';
 })
 
-google.charts.load('current', { 'packages': ['corechart'] });
-google.charts.setOnLoadCallback(drawChart);
 
+
+
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
+
+// Pie Chart Example
 function drawChart(TotalConfirmed, TotalDeaths, TotalRecovered) {
-    var data = google.visualization.arrayToDataTable([
-        ['Year', ''],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-          // CSS-style declaration
-       /* ['Year', 'Conformed', 'deaths', 'Recovered'],
-        ['2021', TotalConfirmed, TotalDeaths, TotalRecovered],*/
-        
-    ]);
-   
-
-    var options = {
-        chart: {
-            // title: 'Covid-details',
-            // subtitle: 'Conformed  Deaths  Recovered',
-            
-        }
-        
-    };
-
-    var chart = new google.charts.PieChart(document.getElementById('bargraph'));
-
-    chart.draw(data, options);
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["Conformed", "Deaths", "Recovered"],
+            datasets: [{
+                data: [TotalConfirmed, TotalDeaths, TotalRecovered],
+                backgroundColor: ['crimson', 'black', '#1CC88A'],
+                hoverBackgroundColor: ['#9a0e2a', 'black', '#0b573c'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+            },
+            legend: {
+                display: false
+            },
+            cutoutPercentage: 80,
+        },
+    });
 }
+
+
+// var map = L.map('mapid').setView([51.505, -0.09], 13);
+
+// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+// }).addTo(map);
+
+// L.marker([51.5, -0.09]).addTo(map)
+//     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+//     .openPopup();
+
+
+
+
+
+
+
+
+
+// google.charts.load('current', { 'packages': ['corechart'] });
+// google.charts.setOnLoadCallback(drawChart);
+
+// function drawChart(TotalConfirmed, TotalDeaths, TotalRecovered) {
+
+//     var data = google.visualization.arrayToDataTable([
+//         ['Task', 'Hours per Day'],
+//         ['Conformed', TotalConfirmed],
+//         ['Deaths', TotalDeaths],
+//         ['Recovered', TotalRecovered],
+//         // ['Watch TV', 2],
+//         // ['Sleep', 7]
+//     ]);
+
+//     var options = {
+//         title: 'My Daily Activities',
+//         is3D: true,
+
+//         colors: ['crimson', 'black', '#1CC88A']
+//     };
+
+//     var chart = new google.visualization.PieChart(document.getElementById('bargraph'));
+
+//     chart.draw(data, options);
+// }
 /*crimson confirmed
  death black recoverd green*/
+
+
+
