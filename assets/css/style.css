@@ -101,19 +101,12 @@ h6 {
     }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (max-width: 1024px) {
     .loader img {
         width: 460px;
         height: 460px;
         margin-top: 10%;
         margin-left: 23%;
-    }
-    .header .logo{
-        margin-left: 0% !important;
-    }
-    .navbar a{
-        padding:10px 0px 10px 0px !important;
-        padding-right: 35px !important;
     }
 }
 
@@ -123,9 +116,6 @@ h6 {
         height: 430px;
         margin-top: 10%;
         margin-left: 20%;
-    }
-    .header .logo{
-        margin-left: 0% !important;
     }
 }
 
